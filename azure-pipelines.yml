@@ -20,7 +20,7 @@ steps:
   inputs:
       deploymentScope: 'Resource Group'
       azureResourceManagerConnection: 'anugrah pay as you go(1)(cbf8b966-9488-4fc7-a133-b65c3b0285a8)'
-      subscriptionId: 'cbf8b966-9488-4fc7-a133-b65c3b0285a8'
+      subscriptionId: '$(SubscriptionID)'
       action: 'Create Or Update Resource Group'
       resourceGroupName: '$(ResourceGroup)'
       location: '$(Location)'
