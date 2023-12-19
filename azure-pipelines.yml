@@ -25,6 +25,6 @@ steps:
       resourceGroupName: '$(ResourceGroup)'
       location: '$(Location)'
       templateLocation: 'Linked artifact'
-      csmFile: 'GOLD/template.json'
-      csmParametersFile: 'GOLD/parameters.json'
+      csmFile: 'SILVER/template.json'
+      csmParametersFile: 'SILVER/parameters.json'
       deploymentMode: 'Incremental'
