@@ -1,0 +1,47 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "maintenanceconfigurations_bronzeserverpatching_name": {
+            "defaultValue": "bronzeserverpatching",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.maintenance/maintenanceconfigurations",
+            "apiVersion": "2023-09-01-preview",
+            "name": "[parameters('maintenanceconfigurations_bronzeserverpatching_name')]",
+            "location": "uksouth",
+            "properties": {
+                "extensionProperties": {
+                    "inGuestPatchMode": "User"
+                },
+                "maintenanceScope": "InGuestPatch",
+                "maintenanceWindow": {
+                    "startDateTime": "2023-12-20 22:00",
+                    "duration": "03:55",
+                    "timeZone": "GMT Standard Time",
+                    "recurEvery": "1Month Second Tuesday Offset5"
+                },
+                "visibility": "Custom",
+                "installPatches": {
+                    "rebootSetting": "AlwaysReboot",
+                    "windowsParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    },
+                    "linuxParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
