@@ -13,7 +13,7 @@ variables:
 - group: UpdateManagerGOLD
 
 steps:
-- checkout: self
+#- checkout: self
 
 
 - task: AzureResourceManagerTemplateDeployment@3
@@ -25,6 +25,6 @@ steps:
       resourceGroupName: '$(ResourceGroup)'
       location: '$(Location)'
       templateLocation: 'Linked artifact'
-      csmFile: '$(System.DefaultWorkingDirectory)/_swapnilmore2901_UpdateManagerFinal1/GOLD/template.json'
-      csmParametersFile: '$(System.DefaultWorkingDirectory)/_swapnilmore2901_UpdateManagerFinal1/GOLD/parameters.json'
+      csmFile: 'GOLD/template.json'
+      csmParametersFile: 'GOLD/parameters.json'
       deploymentMode: 'Incremental'
