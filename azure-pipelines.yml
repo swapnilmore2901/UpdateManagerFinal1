@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-- group: UpdateManagerGOLD
+- group: UpdateManagerFinal
 
 steps:
 #- checkout: self
