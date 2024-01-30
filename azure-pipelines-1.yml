@@ -20,6 +20,6 @@ steps:
     resourceGroupName: 'test'
     location: 'UK South'
     templateLocation: 'Linked artifact'
-    csmFile: 'SILVER/template.json'
-    csmParametersFile: 'SILVER/parameters.json'
+    csmFile: 'GoldMainTest/template.json'
+    csmParametersFile: 'GoldMainTest/parameters.json'
     deploymentMode: 'Incremental'
