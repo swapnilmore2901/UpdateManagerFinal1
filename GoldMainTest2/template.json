@@ -1,0 +1,47 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "maintenanceconfigurations_goldserverpatching_name": {
+            "defaultValue": "goldserverpatching",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.maintenance/maintenanceconfigurations",
+            "apiVersion": "2023-09-01-preview",
+            "name": "[parameters('maintenanceconfigurations_goldserverpatching_name')]",
+            "location": "uksouth",
+            "properties": {
+                "extensionProperties": {
+                    "inGuestPatchMode": "User"
+                },
+                "maintenanceScope": "InGuestPatch",
+                "maintenanceWindow": {
+                    "startDateTime": "2023-12-23 22:00",
+                    "duration": "03:55",
+                    "timeZone": "GMT Standard Time",
+                    "recurEvery": "1Month Fourth Tuesday Offset5"
+                },
+                "visibility": "Custom",
+                "installPatches": {
+                    "rebootSetting": "NeverReboot",
+                    "windowsParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    },
+                    "linuxParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}
