@@ -20,6 +20,6 @@ steps:
     resourceGroupName: 'test'
     location: 'UK South'
     templateLocation: 'Linked artifact'
-    csmFile: '$(System.DefaultWorkingDirectory)/_swapnilmore2901_UpdateManagerFinal1/GoldMainTest/template.json'
-    csmParametersFile: '$(System.DefaultWorkingDirectory)/_swapnilmore2901_UpdateManagerFinal1/GoldMainTest/parameters.json'
+    csmFile: 'GoldMainTest/template.json'
+    csmParametersFile: 'GoldMainTest/parameters.json'
     deploymentMode: 'Incremental'
