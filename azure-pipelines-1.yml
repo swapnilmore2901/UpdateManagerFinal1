@@ -20,6 +20,6 @@ steps:
     resourceGroupName: 'rg-updatemanager-shared-001'
     location: 'UK South'
     templateLocation: 'Linked artifact'
-    csmFile: 'GOLD/template.json'
-    csmParametersFile: 'GOLD/parameters.json'
+    csmFile: 'GoldMainTest/template.json'
+    csmParametersFile: 'GoldMainTest/parameters.json'
     deploymentMode: 'Incremental'
