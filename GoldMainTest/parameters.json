@@ -2,23 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "maintenanceConfigName": {
-            "value": "silverserverpatching"
-        },
-        "maintenanceConfigLocation": {
-            "value": "uksouth"
-        },
-        "maintenanceSchedule": {
-            "value": {
-                "startDateTime": "2024-02-01 22:00",
-                "duration": "03:55",
-                "timeZone": "GMT Standard Time",
-                "expirationDateTime": null,
-                "recurEvery": "1Month Third Tuesday Offset5"
-            }
-        },
-        "maintenanceScope": {
-            "value": "InGuestPatch"
+        "maintenanceconfigurations_silverserverpatching_name": {
+            "value": null
         }
     }
 }
