@@ -1,47 +1,124 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "maintenanceconfigurations_silverserverpatching_name": {
-            "defaultValue": "silverserverpatching",
-            "type": "String"
+        "maintenanceConfigName": {
+            "type": "string",
+            "metadata": {
+                "description": "This is name of the maintenance config being created."
+            }
+        },
+        "maintenanceConfigLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "This is location of the maintenance config being created."
+            }
+        },
+        "maintenanceSchedule": {
+            "type": "object",
+            "metadata": {
+                "description": "This is schedule information associated with the Maintenance configuration."
+            }
+        },
+        "maintenanceScope": {
+            "type": "string",
+            "metadata": {
+                "description": "Gets or sets maintenanceScope of the configuration."
+            }
         }
     },
-    "variables": {},
     "resources": [
         {
-            "type": "microsoft.maintenance/maintenanceconfigurations",
-            "apiVersion": "2023-09-01-preview",
-            "name": "[parameters('maintenanceconfigurations_silverserverpatching_name')]",
-            "location": "uksouth",
+            "apiVersion": "2023-04-01",
+            "type": "Microsoft.Maintenance/maintenanceConfigurations",
+            "name": "[parameters('maintenanceConfigName')]",
+            "location": "[parameters('maintenanceConfigLocation')]",
+            "tags": {},
             "properties": {
-                "extensionProperties": {
-                    "InGuestPatchMode": "User"
-                },
                 "maintenanceScope": "InGuestPatch",
-                "maintenanceWindow": {
-                    "startDateTime": "2024-01-31 22:00",
-                    "duration": "03:55",
-                    "timeZone": "GMT Standard Time",
-                    "recurEvery": "1Month Third Tuesday Offset5"
-                },
-                "visibility": "Custom",
                 "installPatches": {
-                    "rebootSetting": "NeverReboot",
-                    "windowsParameters": {
-                        "classificationsToInclude": [
-                            "Critical",
-                            "Security"
-                        ]
-                    },
                     "linuxParameters": {
                         "classificationsToInclude": [
                             "Critical",
                             "Security"
-                        ]
-                    }
+                        ],
+                        "packageNameMasksToExclude": null,
+                        "packageNameMasksToInclude": null
+                    },
+                    "windowsParameters": {
+                        "classificationsToInclude": [
+                            "Critical",
+                            "Security"
+                        ],
+                        "kbNumbersToExclude": null,
+                        "kbNumbersToInclude": null
+                    },
+                    "rebootSetting": "NeverReboot"
+                },
+                "extensionProperties": {
+                    "InGuestPatchMode": "User"
+                },
+                "maintenanceWindow": {
+                    "startDateTime": "2024-02-01 22:00",
+                    "duration": "03:55",
+                    "timeZone": "GMT Standard Time",
+                    "expirationDateTime": null,
+                    "recurEvery": "1Month Third Tuesday Offset5"
                 }
             }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-08-01",
+            "name": "[uniqueString('Scope_cbf8b966-9488-4fc7-a133-b65c3b0285a8_silverserverpatching')]",
+            "subscriptionId": "cbf8b966-9488-4fc7-a133-b65c3b0285a8",
+            "location": "uksouth",
+            "dependsOn": [
+                "[concat('Microsoft.Maintenance/maintenanceConfigurations/', parameters('maintenanceConfigName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2023-04-01",
+                            "type": "Microsoft.Maintenance/configurationAssignments",
+                            "name": "silverserverpatchingDynamicAssignment1",
+                            "properties": {
+                                "maintenanceConfigurationId": "/subscriptions/cbf8b966-9488-4fc7-a133-b65c3b0285a8/resourceGroups/rg-updatemanager-shared-001/providers/Microsoft.Maintenance/maintenanceConfigurations/silverserverpatching",
+                                "filter": {
+                                    "resourceTypes": [
+                                        "microsoft.compute/virtualmachines"
+                                    ],
+                                    "resourceGroups": [
+                                        "rg-updatemanager-shared-001"
+                                    ],
+                                    "osTypes": [
+                                        "Linux",
+                                        "Windows"
+                                    ],
+                                    "locations": [
+                                        "uksouth"
+                                    ],
+                                    "tagSettings": {
+                                        "filterOperator": "All",
+                                        "tags": {
+                                            "Service Plan": [
+                                                "SILVER"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "parameters": {}
+            },
+            "tags": {}
         }
     ]
 }
