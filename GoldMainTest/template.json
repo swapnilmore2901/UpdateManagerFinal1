@@ -1,5 +1,7 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "$schema": "
+https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#"
+,
     "contentVersion": "1.0.0.0",
     "parameters": {
         "maintenanceconfigurations_silverserverpatching_name": {
@@ -16,7 +18,7 @@
             "location": "uksouth",
             "properties": {
                 "extensionProperties": {
-                    "InGuestPatchMode": "User"
+                    "inGuestPatchMode": "User"
                 },
                 "maintenanceScope": "InGuestPatch",
                 "maintenanceWindow": {
@@ -42,6 +44,61 @@
                     }
                 }
             }
+        },
+		{
+		 "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-08-01",
+            "name": "[parameters('maintenanceconfigurations_silverserverpatching_name')]",
+            "subscriptionId": "cbf8b966-9488-4fc7-a133-b65c3b0285a8",
+            "location": "uksouth",
+            "dependsOn": [
+                "[concat('Microsoft.Maintenance/maintenanceConfigurations/', parameters('maintenanceconfigurations_silverserverpatching_name'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "
+http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#"
+,
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2023-04-01",
+                            "type": "Microsoft.Maintenance/configurationAssignments",
+                            "name": "silverserverpatchingDynamicAssignment1",
+                            "properties": {
+                                "maintenanceConfigurationId": "/subscriptions/cbf8b966-9488-4fc7-a133-b65c3b0285a8/resourceGroups/rg-updatemanager-shared-001/providers/Microsoft.Maintenance/maintenanceConfigurations/silverserverpatching",
+                                "filter": {
+                                    "resourceTypes": [
+                                        "microsoft.compute/virtualmachines"
+                                    ],
+                                    "resourceGroups": [
+                                        "rg-updatemanager-shared-001"
+                                    ],
+                                    "osTypes": [
+                                        "Linux",
+                                        "Windows"
+                                    ],
+                                    "locations": [
+                                        "uksouth"
+                                    ],
+                                    "tagSettings": {
+                                        "filterOperator": "All",
+                                        "tags": {
+                                            "Service Plan": [
+                                                "SILVER"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "parameters": {}
+            },
+            "tags": {}
         }
     ]
 }
